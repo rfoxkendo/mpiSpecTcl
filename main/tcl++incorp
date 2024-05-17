@@ -1,19 +1,22 @@
 #!/bin/bash
 
-# Incorporate a tag of libtcl++
-# Most recent good tag:  libtclplus-v4.3-002
+#  Manage the submodule for libtclplus
+#  Usage ./tcl++incorp tag-to-switch-to
+#
+#  e.g. ./tcl++incorp libtclplus-v4.3-001
+#  last used in this branch.
+#
 
 tag=$1
-REPOSITORY="https://github.com/FRIBDAQ/libtclplus"
-TARGET="libtcl"
-
-rm -rf ${TARGET}
-
 # if not argument is provided, use default value
 if [[ ! $tag ]];
 then
   tag=`cat LIBTCL_VERSION`
 fi
-git clone ${REPOSITORY} ${TARGET}
-(cd ${TARGET}; git checkout $tag)
-(cd ${TARGET}; autoreconf -if)
+
+git submodule update --init --remote
+
+(cd libtcl ; git checkout $tag)
+git add libtcl
+
+git submodule foreach 'autoreconf -if'

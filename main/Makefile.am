@@ -27,14 +27,9 @@ SUBDIRS = Replace \
 					packaged \
 					restclient \
 					mirrorclient \
-					Python db \
+					Python db PyQtGUI\
 					xaminerunner \
-					rootxamine \
-					const	\
-					firstof \
-					map	\
-					radwareio \
-					rootFilterFormat
+					rootxamine
 
 ACLOCAL_AMFLAGS=-I m4
 
@@ -50,7 +45,7 @@ EXTRA_DIST = fixdos ReleaseNotesNSCL4.0.txt SpecTclRC.tcl \
 	bootstrap $(MYGRIDIR) LICENSE  \
 	build.cygwin Directories.include CompilationRules.include \
 	libtcl \
-	CHANGELOG m4 Porting.txt rest unifiedformat PyQtGUI
+	CHANGELOG m4 Porting.txt rest unifiedformat
 
 dist-hook:
 	mkdir -p $(distdir)/config
@@ -99,11 +94,6 @@ install-exec-local:
 	$(INSTALL_DATA) @builddir@/CompilationRules.temp $(sysconfdir)/CompilationRules.include
 	echo "Version: " SpecTcl-$(VERSION) build on `hostname` `date` by `whoami` >VERSION
 	echo The CERN Root installation used  was: `@ROOTCONFIG@ --prefix` >> VERSION
-	echo configured as shown below: >> VERSION
-	head @top_builddir@/config.log >>VERSION
-	echo libtcl `(cd @top_srcdir@/libtcl; @GIT@ status -uno) ` >> VERSION
-	echo unifiedformat `(cd @top_srcdir@/libtcl; @GIT@ status -uno) ` >> VERSION
-	echo CutiePie `(cd @top_srcdir@/PyQtGUI; @GIT@ status -uno) ` >> VERSION 
 	$(INSTALL_DATA) @builddir@/VERSION $(prefix)/VERSION
 	$(INSTALL_DATA) @srcdir@/CHANGELOG $(prefix)
 	$(MANDB) $(prefix)/docs/man

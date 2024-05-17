@@ -185,12 +185,7 @@ tcltest::test create_2 {test double creation} \
 -cleanup {rmdb}                       \
 -body {
     DBTcl create $database;             # Should work fine given create_2
-    if {[catch {DBTcl create $database} msg]}  {
-        set result $msg
-    } else {
-        set result 0
-    }
-    set result
+    catch {DBTcl create $database}
 } -result 0
 
 

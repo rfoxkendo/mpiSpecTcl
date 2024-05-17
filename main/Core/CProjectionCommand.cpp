@@ -445,18 +445,10 @@ CProjectionCommand::getValidatedTargetSpectrum(const char* name,
     
     
     vector<CParameter> parameters;
-    vector<CParameter> gsParameters;     // Different params if we're -> g1:
-    bool xproj = which == x ? kfTRUE : kfFALSE;
     for (int i = 0; i < def.vParameters.size(); i ++) {
       CParameter* pParam = api->FindParameter(def.vParameters[i]);
       REQUIRE(pParam, "Parameter lookup failed");
       parameters.push_back(*pParam);
-      if (xproj && (i %2 == 0)) {   // Even params are x-s
-        gsParameters.push_back(*pParam);
-      }
-      if (!xproj && (i%2 == 1)) {   // Odd params are y-s.
-      gsParameters.push_back(*pParam);
-      }
     }
     // If the type is ke2Dm and the gate container is not the true container
     // we need tomake an m2 projection spectrum.   Otherwise a g1d is just fine.
@@ -464,12 +456,12 @@ CProjectionCommand::getValidatedTargetSpectrum(const char* name,
     if ((def.eType == ke2Dm) && gate != &truecontainer) {
         pDest =api->CreateM2Projection(
             std::string(name), keLong, parameters, gate,
-            xproj,
+            which == x ? kfTRUE : kfFALSE,
             nChannels, Low, High
         );
     } else {
         pDest = api->CreateG1D(string(name), keLong, 
-                   gsParameters,
+                   parameters,
                    nChannels, Low, High);
     }
   }
