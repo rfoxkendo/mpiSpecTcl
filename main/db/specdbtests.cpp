@@ -44,8 +44,6 @@ static const char* expectedTables[] {
         "spectrum_defs",
         "axis_defs",
         "spectrum_params",
-        "spectrum_x_params",
-        "spectrum_y_params",
         "spectrum_contents",
         "gate_defs",
         "gate_points",
